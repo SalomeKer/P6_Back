@@ -1,7 +1,8 @@
 const mongoose = require("mongoose")
-const password = "211104"
+const password = process.env.PASSWORD
 const uri = `mongodb+srv://sk21:${password}@cluster0.lpkdg.mongodb.net/?retryWrites=true&w=majority`
 const uniqueValidator = require('mongoose-unique-validator')
+
 
 mongoose.connect(uri)
 .then(() => console.log('Connexion à MongoDB réussie !'))

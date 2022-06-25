@@ -26,6 +26,7 @@ async function createUser(req, res){
         }
 
         async function logUser(req, res){
+            
         const email = req.body.email
         const password = req.body.password
         const user = await User.findOne({email: email})
@@ -37,12 +38,11 @@ async function createUser(req, res){
         }
         const token = createToken(email)
         res.status(200).send({userId: user?._id, token: token})
-
         }
         
         function createToken(email){
             const jwtPassword = process.env.JWT_PASSWORD
-           const token = jwt.sign({email: email}, "pelican",{expiresIn: "24h"})
+            return jwt.sign({email: email}, jwtPassword ,{expiresIn: "24h"})
         }
         
        module.exports = { createUser, logUser}
