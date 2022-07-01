@@ -1,28 +1,7 @@
-require('dotenv').config()
-const express = require("express")
-const app = express ()
-const cors = require("cors")
+const {app, express} = require ("./index")
 const port = 3000
-const multer = require ("multer")
+const path = require ("path")
 
-const storage = multer.diskStorage({
-    destination: "images/",
-    
-    //renommer les images (cb, callback?)
-    filename: function (req, file, cb) {
-        cb(null, makeFilename(req, file))
-    }
-})
-
-//nom original de l'image
-function makeFilename(req,file){
-    const fileName = `${Date.now()}-${file.originalname}`
-    file.fileName = fileName //On rajoute le nom du fichier à la requête
-    return fileName 
-}
-
-
-const upload = multer({storage: storage})
 
 //Connextion à Mongo/
 require("./mongo")
@@ -32,12 +11,11 @@ const {createUser, logUser} = require("./controllers/users")
 const {getSauces, createSauces} = require("./controllers/sauces")
 
 //Middleware
-app.use(cors())
-app.use(express.json())
-
 const { authenticateUser } = require("./middleware/auth")
+const {upload} = require("./middleware/multer")
 
-//Le formulaire (add sauce) est un multiparse/form-data, pour pouvoir lire les datas ont utilise le middleware multer (appartenant à express)
+
+//Le formulaire (add sauce) est un multiparse/form-data, pour pouvoir lire les datas on utilise le middleware multer (appartenant à express)
 // multer récupère le fichier 
 
 //routes
@@ -50,6 +28,9 @@ app.get("/api/sauces/", authenticateUser, getSauces)
 app.post("/api/sauces/", authenticateUser, upload.single("image"),createSauces)
 app.get("/", (req, res) => res.send("hello world !"))
 
+
+//Les fichiers du dossier sont maintenant accessibles 
+app.use("/images",express.static(path.join(__dirname,"images")))
 
 //Écoute 
 app.listen(port, ()=> console.log("listening on port" + port))

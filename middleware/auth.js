@@ -6,7 +6,7 @@ function authenticateUser (req, res, next){  //next permet de passer à la proch
     // on vérifie l'autorisation
    const header = req.header("Authorization")
     
-   if (header==null) return res.status(403).send({message: "Invalid"})
+   if (header==null) return res.status(403).send({message: "access denied"})
    
    //Si le token est null
    const token = header.split(" ")[1]
