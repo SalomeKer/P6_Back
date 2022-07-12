@@ -50,7 +50,9 @@ function deleteSauces (req, res){
 }
 
 function modifySauces(req, res){
-    const {params: {id}} = req
+    const {
+      params: {id}
+    } = req
     
     console.log("req.file", req.file)
     
@@ -92,9 +94,7 @@ function sendClientResponse(product,res){
             return res.status(404).send({message: "Les informations sont déja à jour" })
          }
             console.log("ALL GOOD:", product)
-            return Promise.resolve (res.status(200).send(product)).then(
-              ()=> product
-            )
+            return Promise.resolve(res.status(200).send(product)).then(()=> product)
         }
 
         

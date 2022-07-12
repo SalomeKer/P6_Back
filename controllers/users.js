@@ -9,16 +9,11 @@ async function createUser(req, res){
     try{
         
         const {email, password} = req.body
-        //hachage du mot de passe
         const hashedPassword = await hashPassword(password)
-        
         const user = new User ({email, password: hashedPassword})
-        
-        //Création d'un nouvel utilisateur à mettre en base de données 
-        user
-        .save()
-        .then(() => res.status(201).send({message: "utilisateur enregistré !"}))
-    } catch (err) {
+        await user.save()
+        res.status(201).send({message: "utilisateur enregistré !"})
+      } catch (err) {
         res.status(409).send({ message: "User pas enregistré :" + err })
       }
     }
