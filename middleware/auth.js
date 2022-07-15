@@ -5,12 +5,13 @@ function authenticateUser(req, res, next) { //next permet de passer à la procha
 	// on vérifie l'autorisation
 	const header = req.header("Authorization")
 	if (header == null) return res.status(403).send({
-		message: "access denied"
+		message: "accès refusé "
 	})
-	//Si le token est null
+	
 	const token = header.split(" ")[1]
+	//Si le token est null
 	if (token == null) return res.status(403).send({
-		message: "Token cannot be null"
+		message: "Token est null"
 	})
 	// On vérifie si le token est valide
 	jwt.verify(token, process.env.JWT_PASSWORD, (err, decoded) => {
@@ -24,3 +25,4 @@ function authenticateUser(req, res, next) { //next permet de passer à la procha
 module.exports = {
 	authenticateUser
 }
+

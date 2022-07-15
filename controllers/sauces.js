@@ -41,7 +41,7 @@ function deleteSauces (req, res){
   Product.findByIdAndDelete(id)
    .then((product) => sendClientResponse(product, res))
    .then ((item) => deleteImage(item))
-   .then((res) => console.log("FILE DELETED", res))
+   .then((res) => console.log("Fichier supprimé", res))
    .catch((err) => res.status(500).send({ message: err }))
 }
 
@@ -60,14 +60,14 @@ function modifySauces(req, res){
     Product.findByIdAndUpdate(id,payload)
     .then((dbresponse) => sendClientResponse(dbresponse, res))
     .then ((product) => deleteImage(product))
-    .then((res) => console.log("FILE DELETED", res))
+    .then((res) => console.log("Fichier supprimé", res))
     //Les infos sont actualisées
     .catch((err) => console.error("PROBLEME", err))
 }
 
 function deleteImage(product){
   if (product == null) return
-  console.log("DELETE IMAGE", product)
+  console.log("IMAGE SUPPRIMÉE", product)
   const imageToDelete = product.imageUrl.split("/").at(-1)
   return unlink("images/"+ imageToDelete)
 }
@@ -130,7 +130,7 @@ function sendClientResponse(product,res){
 function likeSauce(req, res){
 const {like, userId} = req.body
 //ON vérifie si la valeur du like est bien égale a 1, -1 ou 0 dans le cas contraire (!=) on stop
- if(![1, -1, 0].includes(like))return res.status(403).send({message: "invalid like value"})
+ if(![1, -1, 0].includes(like))return res.status(403).send({message: "Valeur de Like Invalide"})
 //Aray include permet de verifier les elements inclus
 
 
