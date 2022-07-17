@@ -17,6 +17,8 @@ const productShema = new mongoose.Schema({
 const Product = mongoose.model("product", productShema)
 
 //Si l'utilisateur est authentifié on enchaine sur cette fonction
+
+//ON affiche les sauces
 function getSauces(req, res) {
   Product.find({})
     .then((products) => res.send(products))
@@ -28,7 +30,6 @@ function getSauce (req, res){
   return Product.findById(id)
   
 }
-
 //Récuperer/isoler une sauce 
 function getSaucesById(req, res){
     getSauce(req,res)
@@ -52,9 +53,7 @@ function modifySauces(req, res){
         
     //Une nouvelle image a-t-elle était ajoutée ? Si il y a une image, hasNewImage est sera égale a TRUE.
     const hasNewImage = req.file != null
-
     const payload = makePayload(hasNewImage, req)
-
     
     //Les infos sont modifiés
     Product.findByIdAndUpdate(id,payload)
@@ -67,7 +66,7 @@ function modifySauces(req, res){
 
 function deleteImage(product){
   if (product == null) return
-  console.log("IMAGE SUPPRIMÉE", product)
+  console.log(product)
   const imageToDelete = product.imageUrl.split("/").at(-1)
   return unlink("images/"+ imageToDelete)
 }
